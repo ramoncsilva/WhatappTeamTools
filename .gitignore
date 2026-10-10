@@ -1,3 +1,12 @@
+# --- Projeto: segredos, dados do time e artefatos de build (NUNCA versionar) ---
+config/app.properties
+config/*.properties
+!config/*.properties.example
+data/roster.json
+data/*.local.json
+backup-*.json
+build/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

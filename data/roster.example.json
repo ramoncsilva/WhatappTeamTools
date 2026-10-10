@@ -1,0 +1,21 @@
+{
+  "teams": [
+    {
+      "id": "plataforma",
+      "name": "Plataforma",
+      "whatsapp_group_id": "COLE_AQUI_O_ID_DO_GRUPO_RETORNADO_PELA_GROUPS_API",
+      "timezone": "America/Sao_Paulo",
+      "people": [
+        { "id": "ana",   "name": "Ana" },
+        { "id": "bruno", "name": "Bruno" },
+        { "id": "carla", "name": "Carla" },
+        { "id": "diego", "name": "Diego" }
+      ],
+      "tasks": [
+        { "id": "ata",     "name": "Ata da daily" },
+        { "id": "cafe",    "name": "Café" },
+        { "id": "limpeza", "name": "Limpeza da sala" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+# ============================================================================
+#  Copie para config/app.properties e preencha.   NUNCA versione app.properties.
+#
+#  Formato: chave=valor, uma por linha. Comentarios so em linhas proprias
+#  (nada de "# comentario" depois do valor). Linhas vazias sao ignoradas.
+#  Chaves com prefixo "secret." vao para o SSM Parameter Store (SecureString);
+#  as demais viram parametros do CloudFormation / variaveis de ambiente.
+# ============================================================================
+
+# ----- AWS (usado apenas pelos scripts de deploy; nao e enviado a Lambda) -----
+aws.region=sa-east-1
+# Perfil do AWS CLI (aws configure sso / aws configure). Deixe vazio para usar o padrao.
+aws.profile=
+stack.name=whatsapp-team-draw
+
+# ----- Agendamento (EventBridge Scheduler) -----
+# Toda segunda-feira, 09:00, no fuso abaixo.
+schedule.expression=cron(0 9 ? * MON *)
+schedule.timezone=America/Sao_Paulo
+# ENABLED | DISABLED
+schedule.state=ENABLED
+
+# ----- Alerta de falha (SNS e-mail; confirme o link recebido apos o 1o deploy) -----
+alert.email=voce@exemplo.com
+
+# ----- WhatsApp Cloud API (Meta) -----
+whatsapp.api.version=v25.0
+# ID do numero de telefone no painel da Meta (WhatsApp > Configuracao da API). Nao e segredo.
+whatsapp.phone.number.id=
+# auto = tenta texto e, se a Meta recusar (janela de atendimento), usa o template
+# text | template | auto
+whatsapp.send.mode=auto
+# Template utility aprovado; obrigatorio nos modos auto e template.
+whatsapp.template.name=sorteio_semanal
+whatsapp.template.language=pt_BR
+
+# ----- Sorteio -----
+draw.max.attempts=200
+
+# ----- Logs -----
+log.retention.days=30
+
+# ============================================================================
+#  SEGREDOS  ->  SSM Parameter Store (SecureString), nunca no template/ambiente
+# ============================================================================
+# Token de acesso permanente (usuario do sistema) da WhatsApp Cloud API.
+secret.whatsapp.access.token=

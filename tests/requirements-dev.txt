@@ -1,0 +1,3 @@
+pytest
+moto[dynamodb,ssm]
+tzdata  # so no Windows; a Lambda (Linux) ja tem o banco de fusos
