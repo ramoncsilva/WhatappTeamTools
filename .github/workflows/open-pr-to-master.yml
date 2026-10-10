@@ -1,0 +1,44 @@
+# A cada push na develop: roda os testes e, se passarem, garante um PR develop -> master aberto.
+# Se ja houver PR aberto, ele e atualizado sozinho pelo push (nao cria duplicado).
+#
+# Requisito unico no repositorio:
+#   Settings > Actions > General > Workflow permissions >
+#   marcar "Allow GitHub Actions to create and approve pull requests".
+name: Open PR to master
+
+on:
+  push:
+    branches: [develop]
+
+concurrency:
+  group: open-pr-to-master
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  test:
+    uses: ./.github/workflows/ci.yml
+
+  open-pr:
+    needs: test
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - name: Abrir PR develop -> master (se nao existir)
+        run: |
+          existente=$(gh pr list --head develop --base master --state open --json number --jq '.[0].number')
+          if [ -n "$existente" ]; then
+            echo "PR #$existente ja esta aberto; nada a fazer."
+            exit 0
+          fi
+          gh pr create --head develop --base master \
+            --title "Release: develop -> master (${GITHUB_SHA::7})" \
+            --body "PR aberto automaticamente apos push na \`develop\` com testes verdes.
+
+          Commit: ${GITHUB_SHA}
+          Revise o diff e faça o merge somente com a aprovacao exigida na protecao da \`master\`."
